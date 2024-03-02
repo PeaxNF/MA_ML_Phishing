@@ -5,7 +5,6 @@ from subprocess import check_output
 import pandas as pd
 import time
 from bs4 import BeautifulSoup
-#import helper_functions
 import yagooglesearch
 import numpy as np
 import logging
@@ -152,7 +151,7 @@ def googlesearchfunc(df,startindex,stopindex,searchpervpn=10,timeout=10,num_word
 
 
 def save_cantina(df,outputfoldercsv,outputfolderlog,filename,startpoint=0):
-    logging.basicConfig(filename=outputfolderlog + '/cantina.log',
+    logging.basicConfig(filename=outputfolderlog + '/' + filename + '.log',
                     filemode='a',
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                     datefmt='%H:%M:%S',
@@ -163,18 +162,14 @@ def save_cantina(df,outputfoldercsv,outputfolderlog,filename,startpoint=0):
         google_result=googlesearchfunc(df,i*250,(i+1)*250)
         google_result.to_csv(outputfoldercsv + '/' + filename + '_' + str(i*250)+ '_' + str(((i+1)*250)-1) + '_index_t.csv',index=True)
         logging.info(outputfoldercsv + '/' + filename + '_' + str(i*250) + '_' + str(((i+1)*250)-1) + '_index_t.csv')
-        #google_result.to_csv('./cantina/phishing/automated/index/cantina_phishing_'+ str(i*250)+'_'+str(((i+1)*250)-1)+'_index_t.csv',index=True)
-        #logging.info('./cantina/phishing/automated/index/cantina_phishing_'+ str(i*250)+'_'+str(((i+1)*250)-1)+'_index_t.csv')
-        # google_result.to_csv('./cantina/phishing/automated/no_index/cantina_phishing_'+ str(i*250)+'_'+str(((i+1)*250)-1)+'.csv',index=False)
-        # logging.info('./cantina/phishing/automated/no_index/cantina_phishing_'+ str(i*250)+'_'+str(((i+1)*250)-1)+'_index_t.csv')
 
-def combine_parts(partspath,outputpath):
+
+def combine_parts(partspath,filename,outputpath):
     list_parts=os.listdir(partspath)
     list_parts.sort(key=lambda f: int(''.join(filter(str.isdigit, f))))
-    df=pd.read_csv(partspath + '/cantina_phishing_0_249_index_t.csv')
+    df=pd.read_csv(partspath + '/' + list_parts[0])
     for i in range (1,len(list_parts)):
         temp=pd.read_csv(partspath + '/' + list_parts[i])
         df=pd.concat([df,temp],axis=0)
-    df.set_index('Unnamed: 0',inplace=True)
-    df.index.names = ['Index']
-    df.to_csv(outputpath + '/cantina_phishing.csv',index=False)
+    df.drop(columns=['Unnamed: 0'],inplace=True)
+    df.to_csv(outputpath + '/' + filename,index=False)

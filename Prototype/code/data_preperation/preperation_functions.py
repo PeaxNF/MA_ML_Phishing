@@ -4,17 +4,6 @@ import tldextract
 from urllib.parse import urlparse
 import os
 
-def get_html(htmlfile):
-    #count=0
-    #test=htmlfile
-    with open('./htmldataset/' + htmlfile) as fp:
-        soup = BeautifulSoup(fp, 'html.parser',multi_valued_attributes=None)
-        #count=count+1
-        #print(count)
-        #print(test)
-        #test=feature_generator()
-        return soup    
-
 def domaintld(domain,tld):
   domaintld=domain+'.'+tld
   return domaintld

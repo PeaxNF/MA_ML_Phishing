@@ -63,8 +63,11 @@ def plot_scores(features,label,clf):
     # return dn
 
 
-def plot_max(df_scores,savepath):
-    df_scores.plot(xticks=df_scores.index, marker='o',figsize=(20, 10),grid=True)
+def plot_max(df_scores,title,savepath):#
+    ax=df_scores.plot(xticks=df_scores.index, marker='o',figsize=(20, 10),grid=True)
+    ax.set_title(title)
+    ax.set_xlabel("Number of features")
+    ax.set_ylabel("Performance Score [%]")
     plt.annotate("Max " + str(round(df_scores.max().max(),2)), (df_scores[df_scores.max().idxmax()].idxmax()+1, df_scores.max().max()),color='red')
     
     plt.savefig(savepath,dpi=300, bbox_inches = "tight")

@@ -1,7 +1,5 @@
 import pandas as pd
 
-
-
 def feature_connection(csv_list):
     for i in range(len(csv_list)):
         print(i)

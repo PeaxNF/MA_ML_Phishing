@@ -11,7 +11,7 @@ import tensorflow as tf
 import numpy as np
 from wordcloud import WordCloud
 from PIL import Image
-#import keras.tensflow 
+
 
 
 def plot_scores(features,label,clf):
@@ -55,32 +55,18 @@ def plot_scores_nnn(features,label):
     scaler.fit(X_train)
     X_train_normalized = scaler.transform(X_train)
     X_test_normalized = scaler.transform(X_test)
-    #scores=[]
-    # count_ac=0
-    # count_re=1
     for j in filter_func:
         score=[]
         number_features=[]
-        # scores_ac=[]
-        # scores_re=[]
         for i in range(10,100,10):
             
             fil=SelectKBest(score_func=j, k=i)
             fil.fit(X_train_normalized,y_train)
             X_train_normalized_selected=fil.transform(X_train_normalized)
             X_test_normalized_selected=fil.transform(X_test_normalized)
-            #X_train_normalized_selected=X_train_normalized.loc[:, fil.get_support()]
-            #X_test_normalized_selected=X_test_normalized.loc[:, fil.get_support()]
-            # clf.fit(X_train, y_train)
-            # y_pred = clf.predict(X_test)
-
-            # Neural network
             keras.backend.clear_session()
-
-            #tf.random.set_seed(0)
             model = Sequential()
             model.add(Dense(16, input_dim=X_train_normalized_selected.shape[1], activation='relu'))
-            #model.add(Dense(12, activation='relu'))
             model.add(Dense(1, activation='sigmoid'))
             model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
             history = model.fit(X_train_normalized_selected, y_train, epochs=100, batch_size=64)
@@ -92,7 +78,6 @@ def plot_scores_nnn(features,label):
             print(score)
         model = Sequential()
         model.add(Dense(16, input_dim=X_train.shape[1], activation='relu'))
-        #model.add(Dense(12, activation='relu'))
         model.add(Dense(1, activation='sigmoid'))
         model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
         history = model.fit(X_train, y_train, epochs=100, batch_size=64)    
@@ -106,32 +91,9 @@ def plot_scores_nnn(features,label):
         print(number_features)
     df['number_features']= pd.Series(number_features)
     df.set_index('number_features',inplace=True)   
-        #     scores_ac.append(metrics.accuracy_score(test, pred)*100)
-        #     scores_re.append(metrics.recall_score(test, pred)*100)
-        #     #print(scores)
-        #     print(str(j)+"Accuracy:",metrics.accuracy_score(test, pred))
-        #     print(str(j)+"Recall:",metrics.recall_score(test, pred))
-        # # clf.fit(X_train, y_train)
-        # # y_pred = clf.predict(X_test)  
-        # # scores_ac.append(metrics.accuracy_score(y_test, y_pred)*100)
-        # # scores_re.append(metrics.recall_score(y_test, y_pred)*100)      
-        # df[filter_name[count_ac]] = pd.Series(scores_ac)
-        # df[filter_name[count_re]] = pd.Series(scores_re)
-        # count_ac=count_ac+2
-        # count_re=count_re+2
-    
-    # scores=[]      
-    # clf.fit(X_train, y_train)
-    # y_pred = clf.predict(X_test)
-    # df[len(X_train.columns)] = pd.Series(scores)
-
 
     return df
-    #     df1 = pd.DataFrame({'Filter': [ ],
-    #                              i: scores }).set_index('Filters')
-    #     dn.append(df1)    
-    # dn = pd.concat(dn, axis=1)
-    # return dn
+
 
 
 def plot_max(df_scores,title,savepath):#
@@ -150,8 +112,7 @@ def wordcloud_features(df,filt,numberfeatures,savepath):
     feature_string = ""
     for i in range(numberfeatures):
         feature_string=feature_string + ' ' + filt_scores.index[i]
-    #print(feature_string)
-    maskArray = np.array(Image.open("../cloud.png"))#
+    maskArray = np.array(Image.open("../cloud.png"))
     wordcloud = WordCloud(background_color="white", repeat = False, mask = maskArray,colormap='viridis').generate(feature_string)
     plt.axis("off")
     plt.imshow(wordcloud, interpolation="bilinear")

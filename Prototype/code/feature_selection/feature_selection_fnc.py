@@ -9,6 +9,8 @@ from keras.models import Sequential
 from keras.layers import Dense
 import tensorflow as tf
 import numpy as np
+from wordcloud import WordCloud
+from PIL import Image
 #import keras.tensflow 
 
 
@@ -140,3 +142,19 @@ def plot_max(df_scores,title,savepath):#
     plt.annotate("Max " + str(round(df_scores.max().max(),2)), (df_scores[df_scores.max().idxmax()].idxmax()+1, df_scores.max().max()),color='red')
     plt.savefig(savepath,dpi=300, bbox_inches = "tight")
     plt.show()
+
+def wordcloud_features(df,filt,numberfeatures,savepath):
+    filt_scores =pd.Series(filt.scores_)
+    filt_scores.index = df.columns
+    filt_scores=filt_scores.sort_values(ascending=False)    
+    feature_string = ""
+    for i in range(numberfeatures):
+        feature_string=feature_string + ' ' + filt_scores.index[i]
+    #print(feature_string)
+    maskArray = np.array(Image.open("../cloud.png"))#
+    wordcloud = WordCloud(background_color="white", repeat = False, mask = maskArray,colormap='viridis').generate(feature_string)
+    plt.axis("off")
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.show()
+    wordcloud.to_file(savepath)
+

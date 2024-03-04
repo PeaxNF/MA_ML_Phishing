@@ -105,14 +105,14 @@ def plot_max(df_scores,title,savepath):#
     plt.savefig(savepath,dpi=300, bbox_inches = "tight")
     plt.show()
 
-def wordcloud_features(df,filt,numberfeatures,savepath):
+def wordcloud_features(df,filt,numberfeatures,savepath,imagepath):
     filt_scores =pd.Series(filt.scores_)
     filt_scores.index = df.columns
     filt_scores=filt_scores.sort_values(ascending=False)    
     feature_string = ""
     for i in range(numberfeatures):
         feature_string=feature_string + ' ' + filt_scores.index[i]
-    maskArray = np.array(Image.open("../cloud.png"))
+    maskArray = np.array(Image.open(imagepath))
     wordcloud = WordCloud(background_color="white", repeat = False, mask = maskArray,colormap='viridis').generate(feature_string)
     plt.axis("off")
     plt.imshow(wordcloud, interpolation="bilinear")

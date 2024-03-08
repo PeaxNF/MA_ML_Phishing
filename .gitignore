@@ -50,10 +50,12 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-
+*.html
 # Translations
 *.mo
 *.pot
+
+top10milliondomains.csv*
 
 # Django stuff:
 *.log

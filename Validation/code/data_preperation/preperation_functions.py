@@ -4,6 +4,17 @@ import tldextract
 from urllib.parse import urlparse
 import os
 
+def check_html(htmlfile):
+  try:
+    with open('../../dataset/phishing/htmlfiles/' + htmlfile) as fp:
+        soup = BeautifulSoup(fp, 'html.parser',multi_valued_attributes=None)
+        return 1
+  except:
+      return 0
+
+def precheck(inputdataframe):
+  inputdataframe["check"]=inputdataframe['website'].apply(lambda x: check_html(x))
+
 def domaintld(domain,tld):
   domaintld=domain+'.'+tld
   return domaintld
@@ -21,3 +32,7 @@ def parseurl(dataframeurl):
   dataframeurl['query']=dataframeurl['url'].apply(lambda x: urlparse(x).query)
   dataframeurl['fragment']=dataframeurl['url'].apply(lambda x: urlparse(x).fragment)
   dataframeurl['filename']=dataframeurl['path'].apply(lambda x: os.path.basename(x))
+
+
+
+

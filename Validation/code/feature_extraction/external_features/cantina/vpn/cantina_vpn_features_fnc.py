@@ -11,7 +11,7 @@ import logging
 import os
 
 def get_html(htmlfile):
-    with open('../../../dataset/htmldataset/' + htmlfile) as fp:
+    with open('../../../../../dataset/htmlfiles/' + htmlfile) as fp:
         soup = BeautifulSoup(fp, 'html.parser',multi_valued_attributes=None)
         return soup  
 
@@ -150,18 +150,31 @@ def googlesearchfunc(df,startindex,stopindex,searchpervpn=10,timeout=10,num_word
     return googlesearch
 
 
-def save_cantina(df,outputfoldercsv,outputfolderlog,filename,startpoint=0):
-    logging.basicConfig(filename=outputfolderlog + '/' + filename + '.log',
+def save_cantina(df,outputfoldercsv,filename,startpoint=0):
+    logging.basicConfig(filename=filename + '.log',
                     filemode='a',
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                     datefmt='%H:%M:%S',
                     level=logging.INFO)
     startpoint=int(startpoint/250)
-    for i in range(startpoint,40):
+    for i in range(startpoint,7):
         logging.info('start'+str(i*250)+ 'end' + str((i+1)*250))
         google_result=googlesearchfunc(df,i*250,(i+1)*250)
         google_result.to_csv(outputfoldercsv + '/' + filename + '_' + str(i*250)+ '_' + str(((i+1)*250)-1) + '_index_t.csv',index=True)
         logging.info(outputfoldercsv + '/' + filename + '_' + str(i*250) + '_' + str(((i+1)*250)-1) + '_index_t.csv')
+
+def save_cantina_small(df,outputfoldercsv,filename,startpoint,endpoint):
+    logging.basicConfig(filename=filename + '.log',
+                    filemode='a',
+                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                    datefmt='%H:%M:%S',
+                    level=logging.INFO)
+    #startpoint=int(startpoint/250)
+    #for i in range(startpoint,4):
+    logging.info('start'+str(startpoint)+ 'end' + str(endpoint))
+    google_result=googlesearchfunc(df,startpoint,endpoint)
+    google_result.to_csv(outputfoldercsv + '/' + filename + '_' + str(startpoint)+ '_' + str(endpoint-1) + '_index_t.csv',index=True)
+    logging.info(outputfoldercsv + '/' + filename + '_' + str(startpoint) + '_' + str(endpoint-1) + '_index_t.csv')
 
 
 def combine_parts(partspath,filename,outputpath):

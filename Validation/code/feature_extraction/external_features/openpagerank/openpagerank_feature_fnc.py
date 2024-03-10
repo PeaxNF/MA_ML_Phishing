@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def openpagerank(domaintld):
-    headers = {'API-OPR':'<API-KEY-HERE>'}
+    headers = {'API-OPR':'<API-Key>'}
     print(domaintld)
     url = 'https://openpagerank.com/api/v1.0/getPageRank?domains%5B0%5D=' + domaintld
     request = requests.get(url, headers=headers)

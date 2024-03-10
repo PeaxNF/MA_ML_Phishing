@@ -20,18 +20,12 @@ def disable_contextmenu(content):
     
   
 def get_html(htmlfile):
-    with open('../../../dataset/phishing/htmlfiles/' + htmlfile) as fp:
+    with open('../../../dataset/htmlfiles/' + htmlfile) as fp:
         soup = BeautifulSoup(fp, 'html.parser',multi_valued_attributes=None)
         return soup    
     
 
-def check_html(htmlfile):
-    try:
-      with open('../../../dataset/phishing/htmlfiles/' + htmlfile) as fp:
-          soup = BeautifulSoup(fp, 'html.parser',multi_valued_attributes=None)
-          return 1
-    except:
-       return 0
+
     
 
 
@@ -360,8 +354,6 @@ def html_form_ext_count_mail(htmlobject):
         return 1
   return 0
 
-def precheck(inputdataframe):
-  inputdataframe["check"]=inputdataframe['website'].apply(lambda x: check_html(x))
    
 
 def html_features(inputdataframe):

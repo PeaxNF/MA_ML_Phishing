@@ -25,8 +25,21 @@ Sandbox Ubuntu 22.04 LTE VirtuaBox
 
 
 Libraries:
-- A tool
-- B tool
+- Beautiful Soup
+- Comcrawl
+- Keras_tuner
+- Matplotlib
+- Mysql-connector-python
+- NumPy
+- Pandas
+- Scikit-learn
+- Scikit-optimize
+- Scipy
+- Tensorflow
+- Tensorflow
+- Urllib
+- Tldextract
+
 
 
 
